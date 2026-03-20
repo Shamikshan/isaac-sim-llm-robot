@@ -1,0 +1,55 @@
+moveit_executor_node:
+  ros__parameters:
+    planning_scene_monitor_options:
+      name: "planning_scene_monitor"
+      robot_description: "robot_description"
+      joint_state_topic: "/joint_states"
+      attached_collision_object_topic: "/moveit_cpp/planning_scene_monitor"
+      publish_planning_scene_topic: "/moveit_cpp/publish_planning_scene"
+      monitored_planning_scene_topic: "/moveit_cpp/monitored_planning_scene"
+      wait_for_initial_state_timeout: 10.0
+    planning_pipelines:
+      pipeline_names: ["ompl"]
+    ompl:
+      planning_plugins: ["ompl_interface/OMPLPlanner"]
+      request_adapters:
+        - "default_planning_request_adapters/ResolveConstraintFrames"
+        - "default_planning_request_adapters/ValidateWorkspaceBounds"
+        - "default_planning_request_adapters/CheckStartStateBounds"
+        - "default_planning_request_adapters/CheckStartStateCollision"
+      response_adapters:
+        - "default_planning_response_adapters/AddTimeOptimalParameterization"
+        - "default_planning_response_adapters/ValidateSolution"
+        - "default_planning_response_adapters/DisplayMotionPath"
+    plan_request_params:
+      planning_attempts: 1
+      planning_pipeline: ompl
+      max_velocity_scaling_factor: 1.0
+      max_acceleration_scaling_factor: 1.0
+      planning_time: 5.0
+    moveit_controller_manager: moveit_simple_controller_manager/MoveItSimpleControllerManager
+    moveit_simple_controller_manager:
+      controller_names:
+        - panda_arm_controller
+        - panda_hand_controller
+      panda_arm_controller:
+        name: panda_arm_controller
+        action_ns: follow_joint_trajectory
+        type: FollowJointTrajectory
+        default: true
+        joints:
+          - panda_joint1
+          - panda_joint2
+          - panda_joint3
+          - panda_joint4
+          - panda_joint5
+          - panda_joint6
+          - panda_joint7
+      panda_hand_controller:
+        name: panda_hand_controller
+        action_ns: gripper_action
+        type: GripperCommand
+        default: true
+        joints:
+          - panda_finger_joint1
+          - panda_finger_joint2
