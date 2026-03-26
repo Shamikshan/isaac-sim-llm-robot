@@ -98,7 +98,6 @@ llm_robot_bridge/
 ## Roadmap
 
 - [ ] Add camera perception in Isaac Sim
-- [ ] Integrate YOLO object detection
 - [ ] Natural language commands without coordinates
 - [ ] Multi-step task planning
 - [ ] Vision-Language-Action (VLA) model integration
